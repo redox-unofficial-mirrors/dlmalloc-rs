@@ -77,12 +77,9 @@ pub unsafe trait Allocator: Send {
 /// results only use one of these. Currently doesn't implement `Drop` to release
 /// lingering memory back to the OS. That may happen eventually though!
 #[cfg(feature = "rust_api")]
-pub struct Dlmalloc<
-    #[cfg(feature = "system")]
-    A = System,
-    #[cfg(not(feature = "system"))]
-    A,
->(dlmalloc::Dlmalloc<A>);
+pub struct Dlmalloc<#[cfg(feature = "system")] A = System, #[cfg(not(feature = "system"))] A>(
+    dlmalloc::Dlmalloc<A>,
+);
 
 cfg_if::cfg_if! {
     if #[cfg(all(feature = "system", target_family = "wasm"))] {
