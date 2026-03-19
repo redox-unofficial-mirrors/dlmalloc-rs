@@ -1,6 +1,6 @@
 use arbitrary::Unstructured;
 use dlmalloc::Dlmalloc;
-use rand::{rngs::SmallRng, RngCore, SeedableRng};
+use rand::{rngs::SmallRng, Rng, SeedableRng};
 
 #[test]
 fn smoke() {
