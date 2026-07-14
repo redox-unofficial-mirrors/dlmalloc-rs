@@ -1191,9 +1191,12 @@ impl<A: Allocator> Dlmalloc<A> {
 
     pub unsafe fn usable_size(&mut self, ptr: *mut u8) -> usize {
         let p = Chunk::from_mem(ptr);
-        let psize = Chunk::size(p);
-
-        psize
+        if Chunk::inuse(p) {
+            let psize = Chunk::size(p);
+            psize - self.overhead_for(p)
+        } else {
+            0
+        }
     }
 
     pub unsafe fn validate_size(&mut self, ptr: *mut u8, size: usize) {
